@@ -38,12 +38,13 @@ router.post("/", (req, res) => {
 
 router.put("/:id", (req, res) => {});
 
-router.delete("/:id", (req, res) => {});
+router.delete("/:id", async (req, res) => {});
 
 router.get("/:id/actions", (req, res) => {
   Projects.getProjectActions(req.params.id).then((projectActions) => {
     res.json(projectActions);
   });
+  res.status(404);
 });
 
 module.exports = router;
