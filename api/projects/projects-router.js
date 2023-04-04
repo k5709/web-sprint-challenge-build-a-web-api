@@ -1,27 +1,49 @@
 // Write your "projects" router here!
 const express = require("express");
 
-const Project = require("./projects-model");
+const Projects = require("./projects-model");
 
 const router = express.Router();
 
-router.get("/api/projects", async (req, res) => {
-  const projects = await Project.get();
-  if (projects) {
-    res.json(projects);
-  } else if (!projects) {
-    return [];
-  }
+router.get("/", (req, res) => {
+  Projects.get().then((projects) => {
+    if (projects.length > 0) {
+      res.json(projects);
+    } else {
+      res.json([]);
+    }
+  });
 });
 
-router.get("api/projects/:id", async (req, res) => {});
+router.get("/:id", (req, res) => {
+  Projects.get(req.params.id).then((projects) => {
+    if (projects) {
+      res.json(projects);
+    } else {
+      res.status(404).json({ message: "No id found" });
+    }
+  });
+});
 
-router.post("/api/projects", (req, res) => {});
+router.post("/", (req, res) => {
+  const { name, description, completed } = req.body;
 
-router.put("api/projects/:id", (req, res) => {});
+  if (!name || !description || !completed) {
+    return res.status(400);
+  }
+  Projects.insert({ name, description, completed }).then((projects) => {
+    res.json(projects);
+  });
+});
 
-router.delete("api/projects/:id", (req, res) => {});
+router.put("/:id", (req, res) => {});
 
-router.get("api/projects/:id/actions", (req, res) => {});
+router.delete("/:id", (req, res) => {});
+
+router.get("/:id/actions", (req, res) => {
+  Projects.getProjectActions(req.params.id).then((projectActions) => {
+    res.json(projectActions);
+  });
+});
 
 module.exports = router;
