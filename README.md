@@ -58,11 +58,12 @@ Inside `api/projects/projects-router.js` build the following endpoints:
 
 Inside `api/actions/actions-router.js` build endpoints for performing CRUD operations on _actions_:
 
-- [ ] `[GET] /api/actions`
+<!-- - [ ] `[GET] /api/actions`
   - Returns an array of actions (or an empty array) as the body of the response.
 - [ ] `[GET] /api/actions/:id`
   - Returns an action with the given `id` as the body of the response.
-  - If there is no action with the given `id` it responds with a status code 404.
+  - If there is no action with the given `id` it responds with a status code 404. -->
+
 - [ ] `[POST] /api/actions`
   - Returns the newly created action as the body of the response.
   - If the request body is missing any of the required fields it responds with a status code 400.

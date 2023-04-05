@@ -25,10 +25,34 @@ router.get("/:id", (req, res) => {
   });
 });
 
-router.post("/", (req, res) => {});
+router.post("/", (req, res) => {
+  const { name, description, completed } = req.body;
+
+  if (!name || !description || !completed) {
+    res.status(400).end();
+  } else
+    Actions.insert({ name, description, completed }).then((actions) => {
+      res.json(actions);
+    });
+});
 
 router.put("/:id", (req, res) => {});
 
-router.delete("/:id", (req, res) => {});
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const action = await Actions.get(id);
+    if (!action) {
+      return res.status(404).end();
+    }
+
+    await Actions.remove(id);
+    res.status(204).end();
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error deleting project" });
+  }
+});
 
 module.exports = router;
