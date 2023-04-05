@@ -72,9 +72,9 @@ Inside `api/actions/actions-router.js` build endpoints for performing CRUD opera
   - Returns the updated action as the body of the response.
   - If there is no action with the given `id` it responds with a status code 404.
   - If the request body is missing any of the required fields it responds with a status code 400.
-- [ ] `[DELETE] /api/actions/:id`
+  <!-- - [ ] `[DELETE] /api/actions/:id`
   - Returns no response body.
-  - If there is no action with the given `id` it responds with a status code 404.
+  - If there is no action with the given `id` it responds with a status code 404. -->
 
 ### Task 4: Build Middleware functions
 
