@@ -40,24 +40,22 @@ router.put("/:id", async (req, res) => {
   const { id } = req.params;
   const { name, description, completed } = req.body;
 
-  if (!name || !description || !completed) {
-    return res.status(400).json({ message: "Missing required fields" });
-  }
-
   try {
     const project = await Projects.get(id);
-
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
 
-    const updatedProject = await Projects.update(id, {
-      name,
-      description,
-      completed,
-    });
-
-    return res.json(updatedProject);
+    if (!name || !description || !completed) {
+      return res.status(400).end();
+    } else {
+      const updatedProject = await Projects.update(id, {
+        name,
+        description,
+        completed,
+      });
+      return res.json(updatedProject);
+    }
   } catch (error) {
     console.log(error.message);
     return res.status(500).json({ message: "Error trying to update project" });
