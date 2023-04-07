@@ -37,28 +37,27 @@ router.post("/", (req, res) => {
 });
 
 router.put("/:id", async (req, res) => {
-  const { id } = req.params;
   const { name, description, completed } = req.body;
 
+  if (!name || !description || typeof completed !== "boolean") {
+    return res.status(400).json({ message: "Missing or invalid fields" });
+  }
+
   try {
-    const project = await Projects.get(id);
+    const project = await Projects.get(req.params.id);
+
     if (!project) {
-      return res.status(404).json({ message: "Project not found" });
+      return res.status(404).json({ message: "Project Not Found" });
     }
 
-    if (!name || !description || !completed) {
-      return res.status(400).end();
-    } else {
-      const updatedProject = await Projects.update(id, {
-        name,
-        description,
-        completed,
-      });
-      return res.json(updatedProject);
-    }
+    const updatedProject = await Projects.update(req.params.id, {
+      name,
+      description,
+      completed,
+    });
+    res.json(updatedProject);
   } catch (error) {
-    console.log(error.message);
-    return res.status(500).json({ message: "Error trying to update project" });
+    res.status(400).json({ message: error.message });
   }
 });
 
